@@ -132,7 +132,7 @@ Cet exemple montre comment partager le skill `home-assistant-management` de votr
 **1. Exécuter la commande de partage**
 Ouvrez un terminal dans ce dépôt et tapez :
 ```bash
-python -X utf8 skills\skill-sharer\scripts\skill_sharer.py share home-assistant-management --method repo
+python skills\skill-sharer\scripts\skill_sharer.py share home-assistant-management --method repo
 ```
 
 **2. Que se passe-t-il sous le capot ?**
@@ -153,7 +153,7 @@ cd Skills_partage
 **2. Importer ou mettre à jour les skills**
 Tapez simplement :
 ```bash
-python -X utf8 skills\skill-sharer\scripts\skill_sharer.py update --all
+python skills\skill-sharer\scripts\skill_sharer.py update --all
 ```
 
 **3. Que se passe-t-il sous le capot ?**
@@ -168,7 +168,7 @@ python -X utf8 skills\skill-sharer\scripts\skill_sharer.py update --all
 Lorsque vous améliorez un skill sur votre PC et que vous souhaitez pousser cette mise à jour sur le repo pour vos autres machines, la commande reste exactement la même que pour le partage initial :
 
 ```bash
-python -X utf8 skills\skill-sharer\scripts\skill_sharer.py share <nom_du_skill> --method repo
+python skills\skill-sharer\scripts\skill_sharer.py share <nom_du_skill> --method repo
 ```
 
 Le script `share --method repo` est intelligent : il va lire votre skill local mis à jour, écraser l'ancienne version dans le dossier `shared/`, recalculer la nouvelle empreinte, faire un nouveau commit et pousser vers GitHub automatiquement.

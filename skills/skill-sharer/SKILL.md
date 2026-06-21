@@ -120,6 +120,6 @@ python "%USERPROFILE%\.gemini\config\skills\skill-sharer\scripts\skill_sharer.py
 
 ## Common Mistakes
 
-1. **Exécution UTF-8** : Sur Windows, si des caractères spéciaux posent problème, exécuter avec `python -X utf8 skill_sharer.py ...`
+1. **Encodage UTF-8** : Le script force automatiquement l'encodage UTF-8 sur Windows. Le flag `python -X utf8` n'est plus nécessaire.
 2. **Droits Git** : Pour le partage via `repo`, assurez-vous que le dépôt local est configuré avec les bons accès (SSH ou token).
 3. **Symlink Windows** : Le script `install.ps1` nécessite le mode développeur activé ou un terminal administrateur.
