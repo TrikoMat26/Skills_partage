@@ -1,0 +1,72 @@
+{
+  "environments": {
+    "antigravity": {
+      "last_checked": "2026-06-21T15:00:00+02:00",
+      "format_version": "1.0",
+      "expected_path": "~/.gemini/config/skills/<name>/SKILL.md",
+      "frontmatter_fields": ["name", "description"],
+      "notes": "Dossier structuré avec SKILL.md obligatoire. Sous-dossiers optionnels : scripts/, examples/, resources/, references/.",
+      "doc_url": "https://github.com/google-gemini/gemini-cli",
+      "checkpoints": {
+        "config_dir_exists": "~/.gemini/config/skills/",
+        "required_file": "SKILL.md"
+      }
+    },
+    "cursor": {
+      "last_checked": "2026-06-21T15:00:00+02:00",
+      "format_version": "2.0",
+      "expected_path": ".cursor/rules/*.mdc",
+      "frontmatter_fields": ["description", "globs", "alwaysApply"],
+      "notes": "Fichiers .mdc avec YAML frontmatter. Remplace l'ancien .cursorrules.",
+      "doc_url": "https://docs.cursor.com/context/rules",
+      "checkpoints": {
+        "config_dir_exists": ".cursor/rules/",
+        "legacy_file": ".cursorrules",
+        "sample_file_pattern": "*.mdc"
+      }
+    },
+    "windsurf": {
+      "last_checked": "2026-06-21T15:00:00+02:00",
+      "format_version": "1.0",
+      "expected_path": ".windsurf/rules/*.md",
+      "frontmatter_fields": [],
+      "notes": "Fichiers Markdown avec balises XML optionnelles (<tech_stack>, <coding_guidelines>, etc.). Remplace l'ancien .windsurfrules.",
+      "doc_url": "https://docs.codeium.com/windsurf/customization",
+      "checkpoints": {
+        "config_dir_exists": ".windsurf/rules/",
+        "legacy_file": ".windsurfrules",
+        "sample_file_pattern": "*.md"
+      }
+    },
+    "copilot": {
+      "last_checked": "2026-06-21T15:00:00+02:00",
+      "format_version": "1.0",
+      "expected_path": ".github/copilot-instructions.md",
+      "frontmatter_fields": [],
+      "notes": "Fichier Markdown standard. Peut aussi utiliser .github/instructions/*.instructions.md pour du modulaire.",
+      "doc_url": "https://docs.github.com/en/copilot/customizing-copilot/adding-repository-custom-instructions-for-github-copilot",
+      "checkpoints": {
+        "config_dir_exists": ".github/",
+        "sample_file_pattern": "*.instructions.md"
+      }
+    },
+    "claude_desktop": {
+      "last_checked": "2026-06-21T15:00:00+02:00",
+      "format_version": "1.0",
+      "expected_path": "Claude Desktop > Project > Custom Instructions",
+      "frontmatter_fields": [],
+      "notes": "Texte brut collé dans le champ 'Custom Instructions' d'un projet Claude Desktop. Pas de fichier natif.",
+      "doc_url": "https://docs.anthropic.com/en/docs/claude-desktop",
+      "checkpoints": {}
+    },
+    "chatgpt": {
+      "last_checked": "2026-06-21T15:00:00+02:00",
+      "format_version": "1.0",
+      "expected_path": "ChatGPT > GPT Builder > Instructions",
+      "frontmatter_fields": [],
+      "notes": "Texte structuré collé dans le champ 'Instructions' du GPT Builder. Format recommandé : sections Role, Objective, Rules, Output Format, Examples.",
+      "doc_url": "https://help.openai.com/en/articles/8554397-creating-a-gpt",
+      "checkpoints": {}
+    }
+  }
+}
