@@ -161,3 +161,18 @@ python -X utf8 skills\skill-sharer\scripts\skill_sharer.py update --all
 - **Comparaison intelligente** : Il vérifie la configuration globale de ce PC. Grâce aux empreintes SHA-256, il ne copie que les skills modifiés ou manquants.
 - **Installation** : Le contenu de `shared/home-assistant-management/` est copié dans `~/.gemini/config/skills/`. Le skill est immédiatement disponible pour Antigravity !
 
+---
+
+### 🔄 Mettre à jour un skill après modification
+
+Lorsque vous améliorez un skill sur votre PC et que vous souhaitez pousser cette mise à jour sur le repo pour vos autres machines, la commande reste exactement la même que pour le partage initial :
+
+```bash
+python -X utf8 skills\skill-sharer\scripts\skill_sharer.py share <nom_du_skill> --method repo
+```
+
+Le script `share --method repo` est intelligent : il va lire votre skill local mis à jour, écraser l'ancienne version dans le dossier `shared/`, recalculer la nouvelle empreinte, faire un nouveau commit et pousser vers GitHub automatiquement.
+
+> 🗣️ **Astuce avec Antigravity** : Puisque ce skill est installé, vous n'avez pas besoin d'ouvrir un terminal ! Dites simplement à votre assistant :
+> *"Mets à jour le skill `home-assistant-management` sur le repo."*
+> L'IA s'occupera d'exécuter la commande pour vous.
