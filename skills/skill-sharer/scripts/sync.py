@@ -166,14 +166,19 @@ def share_to_repo(
     checksum = _compute_checksum(dest)
     _write_meta(dest, checksum)
 
-    # Commiter et pousser
+    # Commiter et pousser (seulement s'il y a des changements)
     relative_shared = f"shared/{skill_name}/"
     _run_git(["add", relative_shared], cwd=repo_root)
-    _run_git(
-        ["commit", "-m", f"[skill-sharer] Update {skill_name}"],
-        cwd=repo_root,
-    )
-    _run_git(["push"], cwd=repo_root)
+    status = _run_git(["status", "--porcelain", relative_shared], cwd=repo_root)
+    if status.stdout.strip():
+        _run_git(
+            ["commit", "-m", f"[skill-sharer] Update {skill_name}"],
+            cwd=repo_root,
+        )
+        _run_git(["push"], cwd=repo_root)
+    else:
+        # Aucun changement détecté — le skill partagé est déjà à jour
+        pass
 
 
 def share_to_local(packaged_path: Path, destination: Path) -> None:

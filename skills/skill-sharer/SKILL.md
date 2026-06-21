@@ -21,8 +21,9 @@ Ce skill permet de **lister, packager, partager, synchroniser et vérifier** la 
 
 ## Utility Scripts
 
-Le script principal est situé à l'emplacement suivant :
-`C:\Users\kriko\.gemini\config\skills\skill-sharer\scripts\skill_sharer.py`
+Le script principal est accessible via le skill installé dans votre configuration Antigravity.
+
+> **Note** : Les chemins ci-dessous utilisent `%USERPROFILE%` (Windows) ou `~` (macOS/Linux) pour rester portables d'un PC à l'autre.
 
 Les scripts doivent être exécutés depuis n'importe quel répertoire. Le script détecte automatiquement les chemins de configuration.
 
@@ -36,10 +37,10 @@ Affiche un inventaire de tous les skills détectés dans l'environnement actuel.
 
 ```bash
 # Affichage en tableau
-python "C:\Users\kriko\.gemini\config\skills\skill-sharer\scripts\skill_sharer.py" list
+python "%USERPROFILE%\.gemini\config\skills\skill-sharer\scripts\skill_sharer.py" list
 
 # Affichage en JSON
-python "C:\Users\kriko\.gemini\config\skills\skill-sharer\scripts\skill_sharer.py" list --format json
+python "%USERPROFILE%\.gemini\config\skills\skill-sharer\scripts\skill_sharer.py" list --format json
 ```
 
 ### 2. Packager un skill pour un autre environnement
@@ -48,13 +49,13 @@ Exporte un skill dans le format natif d'un environnement cible.
 
 ```bash
 # Format Markdown universel (fichier unique contenant tout le skill)
-python "C:\Users\kriko\.gemini\config\skills\skill-sharer\scripts\skill_sharer.py" package <nom_du_skill> --target markdown
+python "%USERPROFILE%\.gemini\config\skills\skill-sharer\scripts\skill_sharer.py" package <nom_du_skill> --target markdown
 
 # Format Cursor (.mdc)
-python "C:\Users\kriko\.gemini\config\skills\skill-sharer\scripts\skill_sharer.py" package <nom_du_skill> --target cursor
+python "%USERPROFILE%\.gemini\config\skills\skill-sharer\scripts\skill_sharer.py" package <nom_du_skill> --target cursor
 
 # Format Antigravity (copie native de la structure)
-python "C:\Users\kriko\.gemini\config\skills\skill-sharer\scripts\skill_sharer.py" package <nom_du_skill> --target antigravity --output ./export/
+python "%USERPROFILE%\.gemini\config\skills\skill-sharer\scripts\skill_sharer.py" package <nom_du_skill> --target antigravity --output ./export/
 
 # Formats disponibles : antigravity, markdown, cursor, windsurf, copilot, chatgpt
 ```
@@ -63,20 +64,20 @@ python "C:\Users\kriko\.gemini\config\skills\skill-sharer\scripts\skill_sharer.p
 
 ```bash
 # Partage via le dépôt GitHub (commit + push automatique)
-python "C:\Users\kriko\.gemini\config\skills\skill-sharer\scripts\skill_sharer.py" share <nom_du_skill> --method repo
+python "%USERPROFILE%\.gemini\config\skills\skill-sharer\scripts\skill_sharer.py" share <nom_du_skill> --method repo
 
 # Copie locale vers un répertoire spécifique
-python "C:\Users\kriko\.gemini\config\skills\skill-sharer\scripts\skill_sharer.py" share <nom_du_skill> --method local --destination "C:\chemin\vers\destination"
+python "%USERPROFILE%\.gemini\config\skills\skill-sharer\scripts\skill_sharer.py" share <nom_du_skill> --method local --destination "C:\chemin\vers\destination"
 ```
 
 ### 4. Mettre à jour les skills depuis GitHub
 
 ```bash
 # Mettre à jour tous les skills partagés
-python "C:\Users\kriko\.gemini\config\skills\skill-sharer\scripts\skill_sharer.py" update --all
+python "%USERPROFILE%\.gemini\config\skills\skill-sharer\scripts\skill_sharer.py" update --all
 
 # Mettre à jour un skill spécifique
-python "C:\Users\kriko\.gemini\config\skills\skill-sharer\scripts\skill_sharer.py" update --skill <nom_du_skill>
+python "%USERPROFILE%\.gemini\config\skills\skill-sharer\scripts\skill_sharer.py" update --skill <nom_du_skill>
 ```
 
 ### 5. Vérifier la compatibilité des environnements
@@ -85,13 +86,13 @@ Détecte si les formats des environnements cibles ont changé depuis la dernièr
 
 ```bash
 # Vérifier tous les environnements
-python "C:\Users\kriko\.gemini\config\skills\skill-sharer\scripts\skill_sharer.py" check --all
+python "%USERPROFILE%\.gemini\config\skills\skill-sharer\scripts\skill_sharer.py" check --all
 
 # Vérifier un environnement spécifique
-python "C:\Users\kriko\.gemini\config\skills\skill-sharer\scripts\skill_sharer.py" check --env cursor
+python "%USERPROFILE%\.gemini\config\skills\skill-sharer\scripts\skill_sharer.py" check --env cursor
 
 # Mettre à jour les timestamps après vérification manuelle
-python "C:\Users\kriko\.gemini\config\skills\skill-sharer\scripts\skill_sharer.py" check --all --update-fingerprints
+python "%USERPROFILE%\.gemini\config\skills\skill-sharer\scripts\skill_sharer.py" check --all --update-fingerprints
 ```
 
 ---

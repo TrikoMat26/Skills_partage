@@ -359,12 +359,12 @@ def _human_size(size_bytes: int) -> str:
     """Convertit une taille en octets en chaîne lisible (Ko, Mo…)."""
     if size_bytes < 1024:
         return f"{size_bytes} B"
+    value = float(size_bytes)
     for unit in ("Ko", "Mo", "Go"):
-        size_bytes_f = size_bytes / 1024
-        if size_bytes_f < 1024 or unit == "Go":
-            return f"{size_bytes_f:.1f} {unit}"
-        size_bytes = int(size_bytes_f)
-    return f"{size_bytes} B"  # pragma: no cover
+        value /= 1024
+        if value < 1024 or unit == "Go":
+            return f"{value:.1f} {unit}"
+    return f"{value:.1f} Go"
 
 
 def format_skills_table(skills: list[SkillInfo]) -> str:

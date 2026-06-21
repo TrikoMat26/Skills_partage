@@ -1,22 +1,41 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""CLI principal du Skill Sharer.
+
+Point d'entrée pour lister, packager, partager, synchroniser
+et vérifier la compatibilité des skills.
+"""
+
 import argparse
+import io
 import sys
-import json
+import tempfile
 from pathlib import Path
 
-# Importer les modules
+# Garantir que les modules voisins sont trouvables même via symlink
+_SCRIPT_DIR = Path(__file__).resolve().parent
+if str(_SCRIPT_DIR) not in sys.path:
+    sys.path.insert(0, str(_SCRIPT_DIR))
+
 from scanner import scan_skills, get_skill_by_name, format_skills_table, format_skills_json
 from packager import package_skill
 from sync import share_to_repo, share_to_local, update_from_repo, get_repo_root
 from checker import load_fingerprints, check_all, check_environment, format_check_results, update_fingerprints_timestamps
 
 def main():
+    # Forcer UTF-8 sur stdout/stderr pour éviter les UnicodeEncodeError Windows
+    if sys.stdout.encoding != 'utf-8':
+        sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', errors='replace')
+    if sys.stderr.encoding != 'utf-8':
+        sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8', errors='replace')
+
     parser = argparse.ArgumentParser(description="Skill Sharer: Partage et synchronisation de skills")
+    parser.add_argument("--config-root", type=str, help="Chemin racine de la configuration Gemini (défaut: ~/.gemini/config)")
     subparsers = parser.add_subparsers(dest="command", help="Commandes disponibles")
 
     # Commande: list
     parser_list = subparsers.add_parser("list", help="Inventaire des skills installés")
     parser_list.add_argument("--format", choices=["table", "json"], default="table", help="Format d'affichage (table ou json)")
-    parser_list.add_argument("--config-root", type=str, help="Chemin racine de la configuration Gemini (défaut: ~/.gemini/config)")
 
     # Commande: package
     parser_package = subparsers.add_parser("package", help="Exporter un skill vers un format cible")
@@ -44,10 +63,10 @@ def main():
     args = parser.parse_args()
 
     # Définition des chemins par défaut
-    config_root = Path(args.config_root).expanduser() if hasattr(args, 'config_root') and args.config_root else Path.home() / ".gemini" / "config"
+    config_root = Path(args.config_root).expanduser() if args.config_root else Path.home() / ".gemini" / "config"
     current_dir = Path.cwd()
     repo_root = get_repo_root()
-    skills_sharer_dir = Path(__file__).parent.parent
+    skills_sharer_dir = Path(__file__).resolve().parent.parent
     fingerprints_path = skills_sharer_dir / "resources" / "env_fingerprints.json"
 
     if not args.command:
@@ -89,12 +108,10 @@ def main():
         print(f"🚀 Partage du skill '{skill_info.name}' via '{args.method}'...")
         
         # Packaging universel en markdown (ou antigravity selon le besoin)
-        # Par défaut on partage le format 'markdown' s'il s'agit d'un gist, sinon on partage le répertoire 'antigravity'
         target_format = "markdown" if args.method == "gist" else "antigravity"
-        temp_export = current_dir / ".temp_export"
-        temp_export.mkdir(exist_ok=True)
-        
-        try:
+
+        with tempfile.TemporaryDirectory(prefix="skill-sharer-") as tmp:
+            temp_export = Path(tmp)
             packaged_path = package_skill(Path(skill_info.path), skill_info.name, skill_info.description, target_format, temp_export)
             
             if args.method == "local":
@@ -115,11 +132,6 @@ def main():
             elif args.method == "gist":
                 print("ℹ️ Le partage Gist nécessite le CLI 'gh'. (Non implémenté dans cet exemple, vous pouvez copier/coller le fichier suivant :)")
                 print(f"Fichier : {packaged_path}")
-                
-        finally:
-            import shutil
-            if temp_export.exists():
-                shutil.rmtree(temp_export)
 
     elif args.command == "update":
         if not args.all and not args.skill:

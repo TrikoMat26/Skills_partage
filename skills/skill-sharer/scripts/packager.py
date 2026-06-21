@@ -17,7 +17,7 @@ import re
 import shutil
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Final
+from typing import Callable, Final
 
 # ---------------------------------------------------------------------------
 # Constantes
@@ -140,7 +140,8 @@ def compute_checksum(skill_path: Path) -> str:
     """Calcule un SHA-256 de l'ensemble des fichiers de la skill.
 
     Les fichiers sont lus dans l'ordre lexicographique de leurs chemins
-    relatifs. Les répertoires ignorés (``__pycache__``, etc.) sont exclus.
+    relatifs. Le chemin relatif de chaque fichier est inclus dans le hash
+    pour détecter les renommages.
 
     Args:
         skill_path: Chemin racine du répertoire de la skill.
@@ -150,6 +151,8 @@ def compute_checksum(skill_path: Path) -> str:
     """
     hasher = hashlib.sha256()
     for file_path in _iter_skill_files(skill_path):
+        rel = file_path.relative_to(skill_path).as_posix()
+        hasher.update(rel.encode("utf-8"))
         hasher.update(file_path.read_bytes())
     return hasher.hexdigest()
 
@@ -251,8 +254,6 @@ def package_skill(
 
 
 # Type alias pour les fonctions de packaging internes.
-from typing import Callable
-
 _PackagerFn = Callable[[Path, str, str, Path], Path]
 
 # ---------------------------------------------------------------------------
